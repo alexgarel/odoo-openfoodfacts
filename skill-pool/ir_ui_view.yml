@@ -1,0 +1,43 @@
+- External ID:
+  View Name: crm.lead.form_off
+  Website:
+  View Type: Form
+  Model: crm.lead
+  Key:
+  Sequence: 100
+  Inherited View: crm.lead.form
+  Arch Blob: |-
+    <data>
+      <!-- we can't remove the part about expected gains and so on because it defines priority, so just hide it -->
+      <xpath expr="//div[@class='oe_title']/h2" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <!-- Add country below group about priority -->
+      <xpath expr="//group[@name='lead_priority']" position="after">
+        <group name="x_off_contact_info">
+          <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+        </group>
+      </xpath>
+    </data>
+  Active: True
+  View inheritance mode: Extension View
+- External ID:
+  View Name: res.partner.form_off
+  Website:
+  View Type: Form
+  Model: res.partner
+  Key:
+  Sequence: 100
+  Inherited View: res.partner.form
+  Arch Blob: |-
+    <data>
+      <xpath expr="//field[@name='vat']" position="after">
+        <field name="x_off_slack_id" placeholder="Slack id..."/>
+        <field name="x_off_username" placeholder="Open Food Facts username..."/>
+      </xpath>
+      <xpath expr="//field[@name='category_id']" position="before">
+        <field name="x_off_languages" widget="many2many_tags" options="{'no_create': True}" placeholder="Languages..."/>
+      </xpath>
+    </data>
+  Active: True
+  View inheritance mode: Extension View
