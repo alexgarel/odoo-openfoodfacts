@@ -112,20 +112,27 @@ try:
   # spoken languages
   if partner_data.get("x_off_languages"):
     langs = [lang for lang in partner_data["x_off_languages"]]
-    langs = env["res.lang"].search([("iso_code", "in", langs), '|', ("active", "=", True), ("active", "=", False)], limit=len(langs))
+    langs = env["res.lang"].search([("iso_code", "in", langs), ("active", "in", (True, False))], limit=len(langs))
     partner_data["x_off_languages"] = [Command.set(langs.ids)]
+    # as string
+    partner_data["x_off_languages_str"] = ", ".join(sorted(lang.name.split("/", 1)[0] for lang in langs))
   # Tags
   contact_tags = ["volunteer"]
   if form_data.get("frequency"):
     contact_tags.append(form_data["frequency"].lower())
+  if form_data.get("main_team"):
+    main_team = form_data["main_team"].lower()
+    contact_tags.append(main_team)
+  else:
+    main_team = None
   if form_data.get("teams"):
-    contact_tags.extend(k.lower() for k, v in form_data["teams"].items() if v)
+    contact_tags.extend(k.lower() for k, v in form_data["teams"].items() if v and k.lower() != main_team)
   # get ids and remove eventual None values
   contact_tag_ids = list(filter(lambda x: x, (partner_tags.get(tag) for tag in contact_tags)))
   # remove the one that may not exists
   contact_tag_ids = env["res.partner.category"].browse(contact_tag_ids).ids
   partner_data["category_id"] = [Command.set(contact_tag_ids)]
-  
+
   notes = []
   for title, form_key in internal_notes_fields:
     value = form_data.get(form_key, None)
@@ -151,14 +158,17 @@ try:
   # add to community team
   lead_data["team_id"] = community_team_id
   # compute lead owner
-  leaders = set(team_leaders.get(tag) for tag in contact_tags) - {None}
+  if main_team:
+    leaders = [team_leaders.get(main_team)]
+  else:
+    leaders = set(team_leaders.get(tag) for tag in contact_tags) - {None}
   if len(leaders) == 1:
     lead_data['user_id'] = list(leaders)[0]
   else:
     lead_data['user_id'] = team_leaders[None]
   # create
   opportunity = env['crm.lead'].create(lead_data)
-  
+
   # an automated email will be sent by sent by another automated action
 except Exception as e:
   log("Skill pool form: Got exception %s while processing form %s" % (e, record.id), level='error')

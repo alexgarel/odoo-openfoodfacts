@@ -4,7 +4,7 @@ if record:
   records = [record]
 elif records:
   records = list(records)
-  
+
 def batch(l, n):
   results = []
   result = []
@@ -16,7 +16,7 @@ def batch(l, n):
   if result:
     results.append(result)
   return results
-  
+
 VALID_KEY_CHARS = set("0123456789abcdefghijklmnopqrstuvwxyz")
 
 def value_to_key(value, default):
@@ -33,19 +33,29 @@ def value_to_key(value, default):
   return "".join(chars[:100]).strip("_")
 
 def get_translations(elt, prefix=""):
-    translations = []
-    sub_elt = []
-    if isinstance(elt, list):
-        sub_elt = list(enumerate(elt))
-    elif isinstance(elt, dict):
-        for attr in TRANSLATE_ATTR:
-            value = elt.get(attr)
-            if value:
-                translations.append((value_to_key(value, ("%s_%s" % (prefix, attr)).lstrip("_")), value))
-        sub_elt = list(elt.items())
-    for name, e in sub_elt:
-        translations.extend(get_translations(e, prefix="%s_%s" % (prefix, name)))
-    return translations
+  """Parse the form structure to get all translatable fields"""
+  translations = []
+  sub_elt = []
+  if isinstance(elt, list):
+      sub_elt = list(enumerate(elt))
+  elif isinstance(elt, dict):
+      for attr in TRANSLATE_ATTR:
+          value = elt.get(attr)
+          if value:
+              translations.append((value_to_key(value, ("%s_%s" % (prefix, attr)).lstrip("_")), value))
+      sub_elt = list(elt.items())
+  for name, e in sub_elt:
+      translations.extend(get_translations(e, prefix="%s_%s" % (prefix, name)))
+  return translations
+
+def get_known_translations():
+  countries = env["ir.translation"].search([("name", "=" , "res.country,name"), ("lang", "=", "fr_FR")])
+  return {c.src: c.value for c in countries}
+
+
+french_id = env["res.lang"].search([("code", "=", "fr_FR")], limit=1).ids[0]
+builder_id = record.id
+known_translations = get_known_translations()
 
 for record in records:
   jsform = json.loads(record["schema"])
@@ -53,15 +63,15 @@ for record in records:
   for translations in batch(all_translations, 100):
     translations = dict(translations)
     # update existing
-    existing = env["formio.translation.source"].search([("property", "in", list(translations.keys()))])
-    for e in existing:
-      value = translations[e.property]
-      if e.source != value:
-        e.write({"source": value})
-    # update
-    existing.flush()
+    existing = env["formio.builder.translation"].search([("lang_id", "=", french_id), ("source", "in", list(translations.values()))])
     # create missing
-    missing = set(translations.keys()) - set(e.property for e in existing)
-    env["formio.translation.source"].create([{"property": prop, "source": translations[prop]} for prop in missing])
-    # ensure french translations exists
-    # FIXME TODO
+    missing = set(translations.keys()) - set(e.source for e in existing)
+    env["formio.builder.translation"].create([
+      {
+        "builder_id": builder_id,
+        "source": translations[prop],
+        "lang_id": french_id,
+        "value": known_translations.get(translations[prop], translations[prop] + " (en)")
+      }
+      for prop in missing
+    ])
