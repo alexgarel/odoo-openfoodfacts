@@ -3,9 +3,9 @@
 - Fields :
 
   - x_off_org_id
-  - x_main_contact
-  - x_last_import_date
-  - x_last_export_date
+  - x_off_main_contact
+  - x_off_last_import_date
+  - x_off_last_export_date
 
 - Inherited view:
 
