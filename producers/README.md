@@ -11,11 +11,15 @@
 
   - res.partner :
     - button to open org in pro platform (when partner is 'company')
-    - new custom off fields in, see ir_model_fields.yml
+    - new custom off fields, see ir_model_fields.yml
 
 - Automated action:
 
-  - new org welcome (sends an email to the org main contact)
+  - [email] new org welcome (sends an email to the org main contact)
+
+- Email templates:
+
+  - New org - welcome
 
 - Server Action:
 
