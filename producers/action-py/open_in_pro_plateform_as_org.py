@@ -12,6 +12,6 @@
 
 action = {
     'type': 'ir.actions.act_url',
-    'url': "https://world.pro.openfoodfacts.org/cgi/user.pl?action=process&amp;type=edit_owner&amp;pro_moderator_owner=" + record.x_off_org_id,
+    'url': "https://world.pro.openfoodfacts.org/cgi/user.pl?action=process&type=edit_owner&pro_moderator_owner=" + record.x_off_org_id,
     'target': 'new',
 }
