@@ -11,14 +11,18 @@
 
   - res.partner :
     - button to open org in pro platform (when partner is 'company')
-    - new custom off fields in res.partner
+    - new custom off fields in, see ir_model_fields.yml
 
 - Automated action:
 
-  - new org welcome (sends an email to the main contact)
+  - new org welcome (sends an email to the org main contact)
 
 - Server Action:
+
   - Open in pro plateform as org (res.partner)
+
+- Tags (crm.tag):
+  - onboarding
 
 [Dasel](https://github.com/TomWright/dasel) was used to transform Odoo csv exports into yaml :
 
