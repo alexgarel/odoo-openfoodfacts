@@ -13,9 +13,12 @@
     </xpath>
     <xpath expr="//field[@name='x_off_username']" position="after" attrs="{'invisible': [('is_company','=', False)]}">
       <field name="x_off_org_id" placeholder="Open Food Facts org id"/>
-      <field name="x_off_main_contact" widget="res_partner_many2one" options="{'no_open': True, 'no_create': True}" domain="[('parent_id', '=', active_id)]" attrs="{'invisible': [('is_company','=', False)]}"/>  
+      <field name="x_off_main_contact" widget="res_partner_many2one" options="{'no_create': True}" domain="[('parent_id', '=', active_id)]" attrs="{'invisible': [('is_company','=', False)]}"/>  
       <field name="x_off_last_import_date" readonly="1" attrs="{'invisible': [('is_company','=', False)]}"/>
       <field name="x_off_last_export_date" readonly="1" attrs="{'invisible': [('is_company','=', False)]}"/>
+      <field name="x_off_last_logged_org_contact_date" readonly="1" attrs="{'invisible': [('is_company','=', False)]}"/>
+      <field name="x_off_last_logged_org_contact" readonly="1" attrs="{'invisible': [('is_company','=', False)]}"/>
     </xpath>
+  </xpath>
   Active: True
   View inheritance mode: Extension View
