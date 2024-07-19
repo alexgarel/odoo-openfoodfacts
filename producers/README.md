@@ -8,7 +8,8 @@
   - x_off_last_export_date
   - x_off_last_logged_org_contact
   - x_off_last_template_download_date
-  - x_off_user_last_login
+  - x_off_last_import_type
+  - x_off_user_login_date
 
 - Inherited view:
 
