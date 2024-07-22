@@ -1,0 +1,13 @@
+
+- id: __export__.base_automation_4_74fd1bc0
+  name: Update saleperson on contact
+  trigger: On Creation
+  model_id: Contact
+  active: True
+  type: ir.actions.server
+  state: email
+  filter_domain:
+  state: code
+  code: # see auto_add_contact_update_saleperson.py
+
+
