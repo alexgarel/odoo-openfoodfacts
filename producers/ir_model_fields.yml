@@ -70,3 +70,76 @@
   Field Help: OFF org id
   Related Field:
   Selectable: True
+- Field Name: x_off_last_logged_org_contact
+  Field Label: Last logged contact
+  Model: Contact
+  Field Type: many2one
+  Type: Custom Field
+  Indexed:
+  Stored: True
+  Readonly:
+  Related Model: res.partner
+  Blacklisted in web forms: True
+  Size: "0"
+  Required:
+  On Delete: Set NULL
+  ID: "9444"
+  Domain: "[]"
+  Field Help: The contact who logged on the pro platform last
+  Related Field:
+  Selectable: True
+- Field Name: x_off_user_login_date
+  Field Label: Last logged contact date
+  Model: Contact
+  Field Type: date
+  Type: Custom Field
+  Indexed:
+  Stored: True
+  Readonly:
+  Related Model:
+  Blacklisted in web forms: True
+  Size: "0"
+  Required:
+  On Delete:
+  ID: "9441"
+  Domain: "[]"
+  Field Help: Date when last contact logged on to the pro platform
+  Related Field:
+  Selectable: True
+- Field Name: x_off_last_template_download_date
+  Field Label: Last template download
+  Model: Contact
+  Field Type: date
+  Type: Custom Field
+  Indexed:
+  Stored: True
+  Readonly:
+  Related Model:
+  Blacklisted in web forms: True
+  Size: "0"
+  Required:
+  On Delete:
+  ID: "9449"
+  Domain: "[]"
+  Field Help: The last time the template was downloaded by a contact of the company in the pro platform
+  Related Field:
+  Selectable: True
+- Field Name: x_off_last_import_type
+  Field Label: Last import type
+  Model: Contact
+  Field Type: many2one
+  Type: Custom Field
+  Indexed:
+  Stored: True
+  Readonly:
+  Related Model: res.partner.category
+  Blacklisted in web forms: True
+  Size: "0"
+  Required:
+  On Delete: Set NULL
+  ID: "9457"
+  Domain: '[]'
+  Field Help: Typology of last import
+  Related Field:
+  Selectable: True
+

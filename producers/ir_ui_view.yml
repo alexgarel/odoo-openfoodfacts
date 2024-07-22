@@ -11,11 +11,15 @@
       <div class="oe_clear"/>
       <button name="531<--replace by the action server id" type="action" string="Open in pro platform" class="oe_highlight" attrs="{'invisible': [('x_off_org_id', '=', False)]}"/>
     </xpath>
-    <xpath expr="//field[@name='x_off_username']" position="after" attrs="{'invisible': [('is_company','=', False)]}">
-      <field name="x_off_org_id" placeholder="Open Food Facts org id"/>
-      <field name="x_off_main_contact" widget="res_partner_many2one" options="{'no_open': True, 'no_create': True}" domain="[('parent_id', '=', active_id)]" attrs="{'invisible': [('is_company','=', False)]}"/>  
-      <field name="x_off_last_import_date" readonly="1" attrs="{'invisible': [('is_company','=', False)]}"/>
-      <field name="x_off_last_export_date" readonly="1" attrs="{'invisible': [('is_company','=', False)]}"/>
+    <xpath expr="//field[@name='vat']" position="after">
+      <field name="x_off_org_id" placeholder="Open Food Facts org id" attrs="{'invisible': [('is_company','=', False)]}"/>
+      <field name="x_off_main_contact" widget="res_partner_many2one" options="{'no_create': True}" domain="[('parent_id', '=', active_id)]" attrs="{'invisible': [('x_off_org_id', '=', False)]}"/>  
+      <field name="x_off_last_logged_org_contact" readonly="1" attrs="{'invisible': [('x_off_org_id', '=', False)]}"/>
+      <field name="x_off_last_import_date" readonly="1" attrs="{'invisible': [('x_off_org_id', '=', False)]}"/>
+      <field name="x_off_last_import_type" widget="many2one" options="{'invisible': [('x_off_org_id', '=', False)], 'no_create': True, 'no_open': True, 'no_quick_create': True}"/>
+      <field name="x_off_last_export_date" readonly="1" attrs="{'invisible': [('x_off_org_id', '=', False)]}"/>
+      <field name="x_off_last_template_download_date" readonly="1" attrs="{'invisible': [('x_off_org_id', '=', False)]}"/>
+      <field name="x_off_user_login_date" readonly="1" attrs="{'invisible': [('x_off_username', '=', False)]}"/>
     </xpath>
   Active: True
   View inheritance mode: Extension View
