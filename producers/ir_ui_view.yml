@@ -19,6 +19,8 @@
       <field name="x_off_last_import_type" widget="many2one" options="{'invisible': [('x_off_org_id', '=', False)], 'no_create': True, 'no_open': True, 'no_quick_create': True}"/>
       <field name="x_off_last_export_date" readonly="1" attrs="{'invisible': [('x_off_org_id', '=', False)]}"/>
       <field name="x_off_last_template_download_date" readonly="1" attrs="{'invisible': [('x_off_org_id', '=', False)]}"/>
+      <field name="x_off_public_products" readonly="1" attrs="{'invisible': [('x_off_org_id', '=', False)]}"/>
+      <field name="x_off_pro_products" readonly="1" attrs="{'invisible': [('x_off_org_id', '=', False)]}"/>
       <field name="x_off_user_login_date" readonly="1" attrs="{'invisible': [('x_off_username', '=', False)]}"/>
     </xpath>
   Active: True

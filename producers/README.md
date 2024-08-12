@@ -10,10 +10,12 @@
   - x_off_last_template_download_date
   - x_off_last_import_type
   - x_off_user_login_date
+  - x_off_public_products
+  - x_off_pro_products
 
 - Inherited view:
 
-  - res.partner :
+  - res.partner.form > res.partner.form_off_pro:
     - button to open org in pro platform (when partner is 'company')
     - new custom off fields, see ir_model_fields.yml
 
