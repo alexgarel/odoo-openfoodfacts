@@ -31,7 +31,7 @@
 
   - Open in pro plateform as org (res.partner)
 
-- Tags (crm.tag): onboarding
+- Tags (crm.tag): onboarding, Producer
 
 - Category (res.partner.category): Producer, AGENA3000, EQUADIS, CSV, Manual import, BAYARD, SFTP
 
