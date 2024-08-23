@@ -140,6 +140,17 @@ try:
       notes.append("<p><b>%s:</b></p>" % title)
       notes.append("<p>%s</p>" % value.replace("\n", "<br>"))
   partner_data["comment"] = "<p></p>".join(notes)
+
+  # compute lead owner
+  if main_team:
+    leaders = [team_leaders.get(main_team)]
+  else:
+    leaders = set(team_leaders.get(tag) for tag in contact_tags) - {None}
+  if len(leaders) == 1:
+    user_id = list(leaders)[0]
+  else:
+    user_id = team_leaders[None]
+  partner_data["user_id"] = user_id
   
   partner = env['res.partner'].create(partner_data)
   
@@ -157,15 +168,9 @@ try:
   lead_data["tag_ids"] = [Command.set(lead_tag_ids)]
   # add to community team
   lead_data["team_id"] = community_team_id
-  # compute lead owner
-  if main_team:
-    leaders = [team_leaders.get(main_team)]
-  else:
-    leaders = set(team_leaders.get(tag) for tag in contact_tags) - {None}
-  if len(leaders) == 1:
-    lead_data['user_id'] = list(leaders)[0]
-  else:
-    lead_data['user_id'] = team_leaders[None]
+  # lead owner
+  lead_data["user_id"] = user_id
+
   # create
   opportunity = env['crm.lead'].create(lead_data)
 
