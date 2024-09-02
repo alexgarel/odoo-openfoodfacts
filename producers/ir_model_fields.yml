@@ -138,8 +138,41 @@
   Required:
   On Delete: Set NULL
   ID: "9457"
-  Domain: '[]'
+  Domain: "[]"
   Field Help: Typology of last import
   Related Field:
   Selectable: True
-
+- Field Name: x_off_pro_products
+  Field Label: Pro platform products
+  Model: Contact
+  Field Type: integer
+  Indexed:
+  Stored: True
+  Readonly:
+  Related Model:
+  Blacklisted in web forms: True
+  Dependencies:
+  Domain: "[]"
+  Enable Ordered Tracking: "0"
+  Field Help: Number of products in pro platform
+  Required:
+  Selectable: True
+  Size: "0"
+  Translatable:
+- Field Name: x_off_public_products
+  Field Label: Public products
+  Model: Contact
+  Field Type: integer
+  Indexed:
+  Stored: True
+  Readonly:
+  Related Model:
+  Blacklisted in web forms: True
+  Dependencies:
+  Domain: "[]"
+  Enable Ordered Tracking: "0"
+  Field Help: Number of products on public database
+  Required:
+  Selectable: True
+  Size: "0"
+  Translatable:

@@ -10,10 +10,12 @@
   - x_off_last_template_download_date
   - x_off_last_import_type
   - x_off_user_login_date
+  - x_off_public_products
+  - x_off_pro_products
 
 - Inherited view:
 
-  - res.partner :
+  - res.partner.form > res.partner.form_off_pro:
     - button to open org in pro platform (when partner is 'company')
     - new custom off fields, see ir_model_fields.yml
 
@@ -29,7 +31,7 @@
 
   - Open in pro plateform as org (res.partner)
 
-- Tags (crm.tag): onboarding
+- Tags (crm.tag): onboarding, Producer
 
 - Category (res.partner.category): Producer, AGENA3000, EQUADIS, CSV, Manual import, BAYARD, SFTP
 
