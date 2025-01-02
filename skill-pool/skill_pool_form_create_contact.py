@@ -13,9 +13,9 @@
 try:
   # TEST !!! to test with url
   if record is None:
-      raise RuntimeError("Skill pool form: no record provided")  
-      log("Creating from form 9 via web")
+      # raise RuntimeError("Skill pool form: no record provided")  
       record = env["formio.form"].browse([9])[0]
+      log("Creating from form %s via web: %r" % (record.id, json.loads(record.submission_data)))
   # fields that directly map from the form data to odoo field
   contact_fields = {
     "email": "email",
@@ -46,10 +46,10 @@ try:
   }
   # select format(' "%s": %s,', lower(name), id) from res_partner_category where name ilike 'team %' or name ilike 'volunteer' or name ilike '%ly';
   partner_tags = {
-      "monthly": 169,
-      "yearly": 171,
+      #"monthly": 169,
+      #"yearly": 171,
       "volunteer": 102,
-      "daily": 167,
+      #"daily": 167,
       "weekly": 170,
       "team database": 255,
       "team events": 266,
@@ -101,14 +101,22 @@ try:
   # some specific transformations #
   # country is a link to a table
   if partner_data.get("country_id"):
-    # it's a dict with label and value
-    country_id = partner_data["country_id"]["value"]
-    countries = env["res.country"].search([("code", "=", country_id.upper())], limit=1)
-    partner_data["country_id"] = countries[0].id
+    try:
+      # it's a dict with label and value
+      country_id = partner_data["country_id"]["value"]
+      countries = env["res.country"].search([("code", "=", country_id.upper())], limit=1)
+      partner_data["country_id"] = countries[0].id
+    except Exception:
+      log("Can't process country field: %r" % partner_data["country_id"], level='warning')
+      partner_data.pop("country_id")
   # communication language
   if partner_data.get("lang"):
     languages = env["res.lang"].search([("code", "=", partner_data["lang"])], limit=1)
-    partner_data["lang"] = languages[0].code  # we have to use code
+    if languages.ids:
+      partner_data["lang"] = languages[0].code  # we have to use code
+    else:
+      log("Can't process lang field: %r" % partner_data["lang"], level='warning')
+      partner_data.pop("lang")
   # spoken languages
   if partner_data.get("x_off_languages"):
     langs = [lang for lang in partner_data["x_off_languages"]]
@@ -151,9 +159,9 @@ try:
   else:
     user_id = team_leaders[None]
   partner_data["user_id"] = user_id
-  
+
   partner = env['res.partner'].create(partner_data)
-  
+
   # create welcome lead
   lead_data = {
     "partner_id": partner.id,
@@ -162,7 +170,7 @@ try:
     "description": partner.comment,
     "stage_id": skill_pool_stage_id,
   }
-  lead_tag_ids = [crm_tags[tag] for tag in contact_tags]
+  lead_tag_ids = list(filter(lambda x: x, (crm_tags.get(tag) for tag in contact_tags)))
   # keep only existing
   lead_tag_ids = env["crm.tag"].browse(lead_tag_ids).ids
   lead_data["tag_ids"] = [Command.set(lead_tag_ids)]
@@ -176,4 +184,4 @@ try:
 
   # an automated email will be sent by sent by another automated action
 except Exception as e:
-  log("Skill pool form: Got exception %s while processing form %s" % (e, record.id), level='error')
+  log("Skill pool form: Got exception %s (%r) while processing form %s" % (e, e, record.id), level='error')
