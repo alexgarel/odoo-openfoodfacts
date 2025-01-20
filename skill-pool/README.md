@@ -131,5 +131,7 @@ When you use the small bug to edit a view, you can see the inherited views in th
 ## Creating a server action to generate translations
 
 There are a lot of translations to create and it can be cumbersome to do.
-I created a server action applied to form build to parse the json and create source translations where needed. (WIP)
+I created a server action applied to form build to parse the json and create source translations where needed.
+
+See `off_generate_form_translations.py`
 
