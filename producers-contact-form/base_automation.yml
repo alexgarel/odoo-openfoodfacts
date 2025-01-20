@@ -1,0 +1,9 @@
+- Sequence: 5
+  Action Name: (off) email on new support form
+  Trigger: On Creation & Update
+  Model: Form
+  Apply on: ["&", "|", ["builder_id.id", "=", 30], ["builder_id.id", "=", 31], ["state", "=", "COMPLETE"]]
+  Before Update Domain: ["&", ["state", "!=", "COMPLETE"], "|", ["builder_id.id", "=", 30], ["builder_id.id", "=", 31]]
+  Active: True
+  Action Type: ir.actions.server
+  Python Code: # see producers_contact_send_email.py
